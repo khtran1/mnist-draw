@@ -1,7 +1,8 @@
 import sys
-import pygame as pg
+import pygame
+import pygame_gui
 
-pg.init()
+pygame.init()
 
 # Constraints
 WINDOW_SIZE = (800, 600)
@@ -11,13 +12,13 @@ DRAW_COLOR = BLACK
 LINE_WIDTH = 5
 
 # Create window
-screen = pg.display.set_mode(WINDOW_SIZE)
-pg.display.set_caption("MNIST Drawing Test Thing")
+screen = pygame.display.set_mode(WINDOW_SIZE)
+pygame.display.set_caption("MNIST Drawing Test Thing")
 
 # Drawing area (x, y, width, height)
-drawing_area = pg.Rect(50, 50, 400, 400)
+drawing_area = pygame.Rect(50, 50, 400, 400)
 
-drawing_surface = pg.Surface(drawing_area.size)
+drawing_surface = pygame.Surface(drawing_area.size)
 drawing_surface.fill(WHITE)
 
 # Init variables
@@ -30,34 +31,34 @@ is_active = True
 screen.fill(WHITE)
 
 while is_active:
-    for event in pg.event.get():
+    for event in pygame.event.get():
         # Handle Quit
-        if event.type == pg.QUIT:
+        if event.type == pygame.QUIT:
             active = False
         # Handle Drawing
-        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             # Only draw if within borders
             if drawing_area.collidepoint(event.pos):
                 is_drawing = True
                 last_pos = event.pos
-        elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             is_drawing = False
             last_pos = None
-        elif event.type == pg.MOUSEMOTION:
+        elif event.type == pygame.MOUSEMOTION:
             if is_drawing:
                 if last_pos != None and drawing_area.collidepoint(event.pos):
-                    pg.draw.line(screen, DRAW_COLOR, last_pos, event.pos, LINE_WIDTH)
+                    pygame.draw.line(screen, DRAW_COLOR, last_pos, event.pos, LINE_WIDTH)
                 last_pos = event.pos
         # Handle Erasing
-        elif event.type == pg.MOUSEBUTTONUP and event.button == 3:
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
             screen.fill(WHITE)
-    
+
     # Draw the area border
-    pg.draw.rect(screen, BLACK, drawing_area, 2)
+    pygame.draw.rect(screen, BLACK, drawing_area, 2)
 
     # Update display
-    pg.display.flip()
+    pygame.display.flip()
 
 # Cleanup and Exit
-pg.quit()
+pygame.quit()
 sys.exit()

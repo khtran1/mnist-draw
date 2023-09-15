@@ -19,8 +19,6 @@ class ClearButton:
         self.drawing_surface = surface
 
     def click(self):
-        # if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-        print("Cleared")
         self.drawing_surface.fill((255, 255, 255))
 
 
@@ -78,16 +76,16 @@ class DrawApp:
 
         self.clear_button = ClearButton(
             gui_manager=self.gui_manager,
-            size=(100, 200),
-            position=(500,30),
+            size=(100, 50),
+            position=(50,500),
             text="Clear",
             surface=self.screen
         )
 
         self.save_button = SaveButton(
             gui_manager=self.gui_manager,
-            size=(100, 200),
-            position=(600,30),
+            size=(100, 50),
+            position=(350,500),
             text="Save",
             surface=self.screen,
             area=self.drawing_area,
@@ -111,17 +109,14 @@ class DrawApp:
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Are we hovering over the clear button?
                     if self.clear_button.button.relative_rect.collidepoint(event.pos):
-                        print("clear")
                         self.clear_button.click()
                     # Otherwise, only start drawing if within borders
                     elif self.drawing_area.collidepoint(event.pos):
-                        print("Drawing!")
                         self.is_drawing = True
                         self.last_pos = event.pos
 
                 # Stop drawing
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.is_drawing == True:
-                    print("No more drawing")
                     self.is_drawing = False
                     self.last_pos = None
 

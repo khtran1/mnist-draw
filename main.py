@@ -52,7 +52,7 @@ class DrawApp:
         # Constants
         self.WINDOW_SIZE = (800, 600)
         self.DRAW_COLOR = pygame.Color('black')
-        self.LINE_WIDTH = 5
+        self.LINE_WIDTH = 10
 
         # Create window
         self.screen = pygame.display.set_mode(self.WINDOW_SIZE)
@@ -93,7 +93,7 @@ class DrawApp:
         self.screen.fill(pygame.Color('white'))
 
         while self.is_active:
-            self.time_delta = self.clock.tick(60)/1000.0
+            self.time_delta = self.clock.tick(720)/1000.0
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -112,14 +112,15 @@ class DrawApp:
                         self.last_pos = event.pos
 
                 # Actually drawing
-                elif event.type == pygame.MOUSEMOTION:
+                elif event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEMOTION:
                     if self.is_drawing:
                         if self.last_pos is not None and self.drawing_area.collidepoint(event.pos):
 
-                            pygame.draw.line(
-                                self.screen, self.DRAW_COLOR,
-                                self.last_pos, event.pos,
-                                self.LINE_WIDTH
+                            pygame.draw.circle(
+                                surface=self.screen, 
+                                color=self.DRAW_COLOR,
+                                center=event.pos,
+                                radius=self.LINE_WIDTH
                             )
 
                         self.last_pos = event.pos

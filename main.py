@@ -28,7 +28,7 @@ class SaveButton:
     Position and size are 2-tuples.
     '''
     def __init__(self, gui_manager, position, size, 
-            text, surface, area, screen):
+            text, surface):
         self.button = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect(position, size),
             text=text,
@@ -37,8 +37,6 @@ class SaveButton:
 
         # Event handling
         self.drawing_surface = surface
-        # self.screen = screen
-        # self.drawing_area = area
 
     def click(self):
         print("Save clicked")
@@ -85,9 +83,7 @@ class DrawApp:
             size=(100, 50),
             position=(350,500),
             text="Save",
-            surface=self.screen,
-            area=self.drawing_area,
-            screen=self.screen
+            surface=self.screen
         )
 
     def startLoop(self):
@@ -115,11 +111,6 @@ class DrawApp:
                         self.is_drawing = True
                         self.last_pos = event.pos
 
-                # Stop drawing
-                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.is_drawing == True:
-                    self.is_drawing = False
-                    self.last_pos = None
-
                 # Actually drawing
                 elif event.type == pygame.MOUSEMOTION:
                     if self.is_drawing:
@@ -132,6 +123,11 @@ class DrawApp:
                             )
 
                         self.last_pos = event.pos
+
+                # Stop drawing
+                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.is_drawing == True:
+                    self.is_drawing = False
+                    self.last_pos = None
 
             # Update GUI
             self.gui_manager.update(self.time_delta)

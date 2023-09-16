@@ -30,16 +30,30 @@ def img_to_mnist(file_name):
     return img
 
 
-if __name__ == "__main__":
-    model_path = get_path("Model/model.keras")
+class Model:
+    def __init__(self):
+        model_path = get_path("Model/model.keras")
+        self.model = load_model(model_path)
+        print("Initialized and loaded model.")
 
-    model = load_model(model_path)
-
-    img = img_to_mnist("number.png")
-    img = np.resize(img, (28,28,1))
     
-    img_arr = np.array(img).reshape(1,28,28,1)
+    def predict(self, file_name):
+        img = img_to_mnist(file_name)
+        img = np.resize(img, (28,28,1))
+        img_arr = np.array(img).reshape(1,28,28,1)
 
-    y_pred = model.predict(img_arr)
+        print('predicting...')
+        y_pred = self.model.predict(img_arr)
 
-    print(y_pred)
+        res = y_pred.argmax()
+        
+        print(y_pred)
+        print(f"that's a {res}")
+
+        return y_pred.argmax()
+
+
+if __name__ == "__main__":
+    model = Model()
+
+    model.predict("number.png")

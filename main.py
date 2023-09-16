@@ -35,18 +35,16 @@ class SaveButton:
             manager=gui_manager
         )
 
-    #     # Event handling
-    #     self.button.subscribe(self.handle_button_click)
+        # Event handling
+        self.drawing_surface = surface
+        # self.screen = screen
+        # self.drawing_area = area
 
-    #     self.drawing_surface = surface
-    #     self.screen = screen
-    #     self.drawing_area = area
-
-    # def handle_button_click(self, event):
-    #     if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-    #         print("Saved")
-    #         self.screen.blit(self.drawing_surface, (self.drawing_area.topleft))
-    #         pygame.image.save(self.drawing_surface, "blah.png")
+    def click(self):
+        print("Save clicked")
+        image = pygame.Surface((400, 400))
+        image.blit(self.drawing_surface, (0,0), ((50, 50), (400, 400)))
+        pygame.image.save(image, "number.png")
 
 class DrawApp:
     def __init__(self):
@@ -107,9 +105,11 @@ class DrawApp:
 
                 # Are we trying to draw or click a button?
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    # Are we hovering over the clear button?
+                    # Are we hovering over a button?
                     if self.clear_button.button.relative_rect.collidepoint(event.pos):
                         self.clear_button.click()
+                    elif self.save_button.button.relative_rect.collidepoint(event.pos):
+                        self.save_button.click()
                     # Otherwise, only start drawing if within borders
                     elif self.drawing_area.collidepoint(event.pos):
                         self.is_drawing = True

@@ -50,7 +50,7 @@ class Model:
         print(y_pred)
         print(f"that's a {res}")
 
-        return y_pred.argmax()
+        return y_pred, y_pred.argmax()
 
 
 if __name__ == "__main__":
